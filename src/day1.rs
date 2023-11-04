@@ -1,4 +1,4 @@
-#[aoc(day1, part1, Bytes)]
+#[aoc(day1, part1)]
 pub fn solve_part1(input: &str) -> i32 {
     input
         .chars()
@@ -10,7 +10,7 @@ pub fn solve_part1(input: &str) -> i32 {
         .sum()
 }
 
-#[aoc(day1, part2, Bytes)]
+#[aoc(day1, part2)]
 pub fn solve_part2(input: &str) -> Option<usize> {
     input
         .chars()
