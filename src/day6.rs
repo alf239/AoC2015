@@ -1,3 +1,5 @@
+use std::cmp::max;
+
 use bit_vec::BitVec;
 
 pub type Coords =  (usize, usize, usize, usize);
@@ -84,6 +86,33 @@ pub fn solve_part1(input: &Vec<Command>) -> usize {
 }
 
 #[aoc(day6, part2)]
-pub fn solve_part2(input: &Vec<Command>) -> usize {
-    2
+pub fn solve_part2(input: &Vec<Command>) -> i32 {
+    let n = 1000;
+    let mut grid: Vec<Vec<i32>> = vec![vec![0; n]; n];
+    for cmd in input {
+        match cmd {
+            Command::TurnOn((xf, yf, xt, yt)) => {
+                for y in *yf..=*yt {
+                    for x in *xf..=*xt {
+                        grid[y][x] = grid[y][x] + 1;
+                    }
+                }
+            },
+            Command::TurnOff((xf, yf, xt, yt)) => {
+                for y in *yf..=*yt {
+                    for x in *xf..=*xt {
+                        grid[y][x] = max(grid[y][x] - 1, 0);
+                    }
+                }
+            },
+            Command::Toggle((xf, yf, xt, yt)) => {
+                for y in *yf..=*yt {
+                    for x in *xf..=*xt {
+                        grid[y][x] = grid[y][x] + 2;
+                    }
+                }
+            },
+        }
+    }
+    grid.iter().map(|row| row.iter().sum::<i32>()).sum()
 }
