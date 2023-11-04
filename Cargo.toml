@@ -8,6 +8,6 @@ edition = "2015"
 bench = false
 
 [dependencies]
-rust-crypto = "0.2.36"
 aoc-runner = "0.3.0"
 aoc-runner-derive = "0.3.0"
+md5 = "0.7.0"
