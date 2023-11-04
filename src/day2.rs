@@ -30,6 +30,13 @@ pub fn solve_part1(input: &Vec<Gift>) -> u32 {
 }
 
 #[aoc(day2, part2)]
-pub fn solve_part2(input: &Vec<Gift>) -> i32 {
-    2
+pub fn solve_part2(input: &Vec<Gift>) -> u32 {
+    input
+        .iter()
+        .map(|&gift| {
+            let (l, w, h) = gift;
+            let smallest = min(min(l + w, w + h), h + l);
+            2 * smallest + l * w * h
+        })
+        .sum()
 }
