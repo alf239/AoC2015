@@ -1,4 +1,4 @@
-use std::{collections::HashMap, fmt};
+use std::collections::HashMap;
 
 #[derive(Clone)]
 pub enum NodeDef {
@@ -12,24 +12,10 @@ pub enum NodeDef {
     Rshift(String, String),
 }
 
-impl fmt::Display for NodeDef {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            NodeDef::Value(x) => write!(f, "{}\n", x),
-            NodeDef::Not(x) => write!(f, "NOT {}\n", x),
-            NodeDef::And(a, b) => write!(f, "{} AND {}\n", a, b),
-            NodeDef::Or(a, b) => write!(f, "{} OR {}\n", a, b),
-            NodeDef::Lshift(a, b) => write!(f, "{} << {}\n", a, b),
-            NodeDef::Rshift(a, b) => write!(f, "{} >> {}\n", a, b),
-        }
-    }
-}
-
 #[aoc_generator(day7)]
 pub fn input_generator(input: &str) -> HashMap<String, NodeDef> {
     let mut defs = HashMap::new();
     for l in input.lines() {
-        // print!("Cmd: {}\n", l);
         let words: Vec<&str> = l.trim().split(' ').collect();
         match words.len() {
             3 => {
