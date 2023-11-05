@@ -1,5 +1,6 @@
 use std::{collections::HashMap, fmt};
 
+#[derive(Clone)]
 pub enum NodeDef {
     Value(String),
 
@@ -85,6 +86,10 @@ pub fn solve_part1(input: &HashMap<String, NodeDef>) -> u16 {
 }
 
 #[aoc(day7, part2)]
-pub fn solve_part2(input: &HashMap<String, NodeDef>) -> u32 {
-    2
+pub fn solve_part2(input: &HashMap<String, NodeDef>) -> u16 {
+    let a = solve_part1(input);
+    let mut input2 = (*input).clone();
+    input2.insert("b".to_string(), NodeDef::Value(a.to_string()));
+    let mut cache = HashMap::new();
+    eval(&input2, &mut cache, "a")
 }
