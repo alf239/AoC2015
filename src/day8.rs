@@ -23,9 +23,8 @@ fn unescaped_length(s: &str) -> usize {
                     l += 1;
                     i += 4;
                 }
-                c => panic!("Invalid escape sequence \\{}", c)
-            }
-            ,
+                c => panic!("Invalid escape sequence \\{}", c),
+            },
             '"' => i += 1, // supposedly the closing quote
             _ => {
                 i += 1;
@@ -35,6 +34,18 @@ fn unescaped_length(s: &str) -> usize {
     }
 
     return l;
+}
+
+fn escape_cost(s: &str) -> usize {
+    let cost: usize = s
+        .chars()
+        .map(|c| match c {
+            '"' => 1,
+            '\\' => 1,
+            _ => 0,
+        })
+        .sum();
+    cost + 2
 }
 
 #[aoc(day8, part1)]
@@ -47,5 +58,5 @@ pub fn solve_part1(input: &Vec<String>) -> i32 {
 
 #[aoc(day8, part2)]
 pub fn solve_part2(input: &Vec<String>) -> i32 {
-    0
+    input.iter().map(|s| escape_cost(s) as i32).sum()
 }
