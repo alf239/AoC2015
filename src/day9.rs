@@ -40,5 +40,12 @@ pub fn solve_part1(input: &(HashMap<String, usize>, HashMap<(usize, usize), usiz
 
 #[aoc(day9, part2)]
 pub fn solve_part2(input: &(HashMap<String, usize>, HashMap<(usize, usize), usize>)) -> usize {
-    input.0.len()
+    let n = input.0.len();
+    let numbers: Vec<usize> = (0..n).collect();
+    numbers
+        .into_iter()
+        .permutations(n)
+        .map(|perm| cost(&input.1, perm))
+        .max()
+        .unwrap()
 }
