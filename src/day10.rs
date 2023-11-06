@@ -26,16 +26,20 @@ fn step(s: String) -> String {
     result
 }
 
-#[aoc(day10, part1)]
-pub fn solve_part1(input: &String) -> usize {
-    let mut s = input.clone();
-    for _ in 0..40 {
+fn solve(n: usize, input: String) -> usize {
+    let mut s = input;
+    for _ in 0..n {
         s = step(s);
     }
     s.len()
 }
 
+#[aoc(day10, part1)]
+pub fn solve_part1(input: &String) -> usize {
+    solve(40, input.clone())
+}
+
 #[aoc(day10, part2)]
 pub fn solve_part2(input: &String) -> usize {
-    input.len()
+    solve(50, input.clone())
 }
