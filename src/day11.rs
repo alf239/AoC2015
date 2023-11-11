@@ -79,5 +79,5 @@ pub fn solve_part1(input: &String) -> String {
 
 #[aoc(day11, part2)]
 pub fn solve_part2(input: &String) -> String {
-    "".to_string()
+    solve_part1(&solve_part1(input))
 }
