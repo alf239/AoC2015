@@ -1,5 +1,5 @@
-use std::collections::HashMap;
 use itertools::Itertools;
+use std::collections::HashMap;
 
 #[aoc_generator(day13)]
 pub fn input_generator(input: &str) -> HashMap<String, HashMap<String, i64>> {
@@ -40,23 +40,34 @@ fn cost_1(input: &HashMap<String, HashMap<String, i64>>, a: &str, b: &str) -> i6
 pub fn solve_part1(input: &HashMap<String, HashMap<String, i64>>) -> i64 {
     let guests = input.keys().collect_vec();
     let n = guests.len();
-    // print!("{:?}", guests);
     let head = guests[0];
     let tail = &guests[1..];
-    tail.iter().permutations(n - 1).map(|arr| {
-        let mut prev = head;
-        let last = arr[arr.len() - 1].as_str();
-        let mut cost = cost_1(input, last, head);
-        for ele in arr {
-            cost += cost_1(input, prev, ele);
-            prev = ele;
-        }
-        cost
-    }
-    ).max().unwrap()
+    tail.iter()
+        .permutations(n - 1)
+        .map(|arr| {
+            let mut prev = head;
+            let last = arr[arr.len() - 1].as_str();
+            let mut cost = cost_1(input, last, head);
+            for ele in arr {
+                cost += cost_1(input, prev, ele);
+                prev = ele;
+            }
+            cost
+        })
+        .max()
+        .unwrap()
 }
 
 #[aoc(day13, part2)]
 pub fn solve_part2(input: &HashMap<String, HashMap<String, i64>>) -> i64 {
-    2
+    let tail = input.keys().collect_vec();
+    tail.iter()
+        .permutations(input.len())
+        .map(|arr| {
+            arr.windows(2)
+                .map(|ele| cost_1(input, ele[0], ele[1]))
+                .sum()
+        })
+        .max()
+        .unwrap()
 }
