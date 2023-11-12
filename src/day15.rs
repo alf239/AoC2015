@@ -2,11 +2,11 @@ use std::cmp::max;
 
 #[derive(Copy, Clone)]
 pub struct Ingredient {
-    capacity: i32,
-    durability: i32,
-    flavor: i32,
-    texture: i32,
-    calories: i32,
+    c: i32,
+    d: i32,
+    f: i32,
+    t: i32,
+    kcal: i32,
 }
 
 fn init(s: &str) -> String {
@@ -22,22 +22,16 @@ pub fn input_generator(input: &str) -> Vec<Ingredient> {
             // Sugar: capacity 3, durability 0, flavor 0, texture -3, calories 2
             attitude.next(); // Sugar:
             attitude.next(); // capacity
-            let capacity = init(attitude.next().unwrap()).parse().unwrap(); // 3,
+            let c = init(attitude.next().unwrap()).parse().unwrap(); // 3,
             attitude.next(); // durability
-            let durability = init(attitude.next().unwrap()).parse().unwrap(); // 0,
+            let d = init(attitude.next().unwrap()).parse().unwrap(); // 0,
             attitude.next(); // flavor
-            let flavor = init(attitude.next().unwrap()).parse().unwrap(); // 0,
+            let f = init(attitude.next().unwrap()).parse().unwrap(); // 0,
             attitude.next(); // texture
-            let texture = init(attitude.next().unwrap()).parse().unwrap(); // -3,
+            let t = init(attitude.next().unwrap()).parse().unwrap(); // -3,
             attitude.next(); // calories
-            let calories = attitude.next().unwrap().parse().unwrap(); // 2
-            Ingredient {
-                capacity,
-                durability,
-                flavor,
-                texture,
-                calories,
-            }
+            let kcal = attitude.next().unwrap().parse().unwrap(); // 2
+            Ingredient { c, d, f, t, kcal }
         })
         .collect()
 }
@@ -53,19 +47,10 @@ pub fn solve_part1(input: &Vec<Ingredient>) -> i32 {
         for j in 0..=100 - i {
             for k in 0..=100 - i - j {
                 let l = 100 - i - j - k;
-                let capacity = max(
-                    0,
-                    a.capacity * i + b.capacity * j + c.capacity * k + d.capacity * l,
-                );
-                let durability = max(
-                    0,
-                    a.durability * i + b.durability * j + c.durability * k + d.durability * l,
-                );
-                let flavor = max(0, a.flavor * i + b.flavor * j + c.flavor * k + d.flavor * l);
-                let texture = max(
-                    0,
-                    a.texture * i + b.texture * j + c.texture * k + d.texture * l,
-                );
+                let capacity = max(0, a.c * i + b.c * j + c.c * k + d.c * l);
+                let durability = max(0, a.d * i + b.d * j + c.d * k + d.d * l);
+                let flavor = max(0, a.f * i + b.f * j + c.f * k + d.f * l);
+                let texture = max(0, a.t * i + b.t * j + c.t * k + d.t * l);
                 watermark = max(capacity * durability * flavor * texture, watermark);
             }
         }
@@ -84,23 +69,11 @@ pub fn solve_part2(input: &Vec<Ingredient>) -> i32 {
         for j in 0..=100 - i {
             for k in 0..=100 - i - j {
                 let l = 100 - i - j - k;
-                let capacity = max(
-                    0,
-                    a.capacity * i + b.capacity * j + c.capacity * k + d.capacity * l,
-                );
-                let durability = max(
-                    0,
-                    a.durability * i + b.durability * j + c.durability * k + d.durability * l,
-                );
-                let flavor = max(0, a.flavor * i + b.flavor * j + c.flavor * k + d.flavor * l);
-                let texture = max(
-                    0,
-                    a.texture * i + b.texture * j + c.texture * k + d.texture * l,
-                );
-                let calories = max(
-                    0,
-                    a.calories * i + b.calories * j + c.calories * k + d.calories * l,
-                );
+                let capacity = max(0, a.c * i + b.c * j + c.c * k + d.c * l);
+                let durability = max(0, a.d * i + b.d * j + c.d * k + d.d * l);
+                let flavor = max(0, a.f * i + b.f * j + c.f * k + d.f * l);
+                let texture = max(0, a.t * i + b.t * j + c.t * k + d.t * l);
+                let calories = max(0, a.kcal * i + b.kcal * j + c.kcal * k + d.kcal * l);
                 if calories == 500 {
                     watermark = max(capacity * durability * flavor * texture, watermark);
                 }
