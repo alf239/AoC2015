@@ -1,6 +1,6 @@
 use std::cmp::min;
 
-use itertools::Itertools;
+use itertools::{Itertools, enumerate};
 
 pub struct Deer {
     speed: i64,
@@ -54,5 +54,15 @@ pub fn solve_part1(input: &Vec<Deer>) -> i64 {
 
 #[aoc(day14, part2)]
 pub fn solve_part2(input: &Vec<Deer>) -> i64 {
-    2
+    let mut score = vec![0; input.len()];
+    for t in 1..=2503 {
+        let ds: Vec<i64> = input.iter().map(|d| distance(d, t)).collect();
+        let lead = *ds.iter().max().unwrap();
+        for (i, d) in enumerate(ds) {
+            if d == lead {
+                score[i] += 1;
+            }
+        }
+    }
+    *score.iter().max().unwrap() as i64
 }
