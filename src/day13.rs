@@ -60,8 +60,10 @@ pub fn solve_part1(input: &HashMap<String, HashMap<String, i64>>) -> i64 {
 
 #[aoc(day13, part2)]
 pub fn solve_part2(input: &HashMap<String, HashMap<String, i64>>) -> i64 {
-    let tail = input.keys().collect_vec();
-    tail.iter()
+    input
+        .keys()
+        .collect_vec()
+        .iter()
         .permutations(input.len())
         .map(|arr| {
             arr.windows(2)
