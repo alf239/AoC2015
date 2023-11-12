@@ -1,3 +1,6 @@
+use std::cmp::max;
+
+#[derive(Copy, Clone)]
 pub struct Ingredient {
     capacity: i32,
     durability: i32,
@@ -40,8 +43,25 @@ pub fn input_generator(input: &str) -> Vec<Ingredient> {
 }
 
 #[aoc(day15, part1)]
-pub fn solve_part1(input: &Vec<Ingredient>) -> i64 {
-    1
+pub fn solve_part1(input: &Vec<Ingredient>) -> i32 {
+    let a = input[0];
+    let b = input[1];
+    let c = input[2];
+    let d = input[3];
+    let mut watermark = 0;
+    for i in 0..=100 {
+        for j in 0..=100-i {
+            for k in 0..=100-i-j {
+                let l = 100 - i - j - k;
+                let capacity = max(0, a.capacity * i + b.capacity * j + c.capacity * k + d.capacity * l);
+                let durability = max(0, a.durability * i + b.durability * j + c.durability * k + d.durability * l);
+                let flavor = max(0, a.flavor * i + b.flavor * j + c.flavor * k + d.flavor * l);
+                let texture = max(0, a.texture * i + b.texture * j + c.texture * k + d.texture * l);
+                watermark = max(capacity * durability * flavor * texture, watermark);
+            }
+        }
+    }
+    watermark
 }
 
 #[aoc(day15, part2)]
