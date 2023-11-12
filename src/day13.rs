@@ -32,7 +32,7 @@ pub fn input_generator(input: &str) -> HashMap<String, HashMap<String, i64>> {
     result
 }
 
-fn cost_1(input: &HashMap<String, HashMap<String, i64>>, a: &str, b: &str) -> i64 {
+fn happiness(input: &HashMap<String, HashMap<String, i64>>, a: &str, b: &str) -> i64 {
     input.get(a).unwrap().get(b).unwrap() + input.get(b).unwrap().get(a).unwrap()
 }
 
@@ -47,9 +47,9 @@ pub fn solve_part1(input: &HashMap<String, HashMap<String, i64>>) -> i64 {
         .map(|arr| {
             let mut prev = head;
             let last = arr[arr.len() - 1].as_str();
-            let mut cost = cost_1(input, last, head);
+            let mut cost = happiness(input, last, head);
             for ele in arr {
-                cost += cost_1(input, prev, ele);
+                cost += happiness(input, prev, ele);
                 prev = ele;
             }
             cost
@@ -67,7 +67,7 @@ pub fn solve_part2(input: &HashMap<String, HashMap<String, i64>>) -> i64 {
         .permutations(input.len())
         .map(|arr| {
             arr.windows(2)
-                .map(|ele| cost_1(input, ele[0], ele[1]))
+                .map(|ele| happiness(input, ele[0], ele[1]))
                 .sum()
         })
         .max()
