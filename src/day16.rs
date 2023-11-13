@@ -1,6 +1,6 @@
-use std::{cmp::min, collections::HashMap};
+use std::collections::HashMap;
 
-use itertools::{enumerate, Itertools};
+use itertools::enumerate;
 
 pub struct Sue {
     known: HashMap<String, usize>,
@@ -31,35 +31,44 @@ pub fn input_generator(input: &str) -> Vec<Sue> {
         .collect()
 }
 
-pub fn check1(sue: &Sue, name: &str, expect: usize) -> bool {
-    if let Some(&value) = sue.known.get(name) { if value != expect { return false; } }
-    true
+fn check<F>(sue: &Sue, name: &str, predicate: F) -> bool
+where
+    F: Fn(usize) -> bool,
+{
+    match sue.known.get(name) {
+        Some(&value) => predicate(value),
+        _ => true,
+    }
 }
 
-pub fn checkg(sue: &Sue, name: &str, expect: usize) -> bool {
-    if let Some(&value) = sue.known.get(name) { if value <= expect { return false; } }
-    true
+fn check_eq(sue: &Sue, name: &str, expect: usize) -> bool {
+    check(sue, name, |x| x == expect)
 }
 
-pub fn checkf(sue: &Sue, name: &str, expect: usize) -> bool {
-    if let Some(&value) = sue.known.get(name) { if value >= expect { return false; } }
-    true
+fn check_gt(sue: &Sue, name: &str, expect: usize) -> bool {
+    check(sue, name, |x| x > expect)
+}
+
+fn check_ft(sue: &Sue, name: &str, expect: usize) -> bool {
+    check(sue, name, |x| x < expect)
 }
 
 #[aoc(day16, part1)]
 pub fn solve_part1(input: &Vec<Sue>) -> usize {
     for (i, sue) in enumerate(input) {
-        if !check1(sue, "children", 3) { continue; }
-        if !check1(sue, "cats", 7) { continue; }
-        if !check1(sue, "samoyeds", 2) { continue; }
-        if !check1(sue, "pomeranians", 3) { continue; }
-        if !check1(sue, "akitas", 0) { continue; }
-        if !check1(sue, "vizslas", 0) { continue; }
-        if !check1(sue, "goldfish", 5) { continue; }
-        if !check1(sue, "trees", 3) { continue; }
-        if !check1(sue, "cars", 2) { continue; }
-        if !check1(sue, "perfumes", 1) { continue; }
-        return i + 1;
+        if check_eq(sue, "children", 3)
+            && check_eq(sue, "cats", 7)
+            && check_eq(sue, "samoyeds", 2)
+            && check_eq(sue, "pomeranians", 3)
+            && check_eq(sue, "akitas", 0)
+            && check_eq(sue, "vizslas", 0)
+            && check_eq(sue, "goldfish", 5)
+            && check_eq(sue, "trees", 3)
+            && check_eq(sue, "cars", 2)
+            && check_eq(sue, "perfumes", 1)
+        {
+            return i + 1;
+        }
     }
     panic!("Can't find anything!")
 }
@@ -67,17 +76,19 @@ pub fn solve_part1(input: &Vec<Sue>) -> usize {
 #[aoc(day16, part2)]
 pub fn solve_part2(input: &Vec<Sue>) -> usize {
     for (i, sue) in enumerate(input) {
-        if !check1(sue, "children", 3) { continue; }
-        if !checkg(sue, "cats", 7) { continue; }
-        if !check1(sue, "samoyeds", 2) { continue; }
-        if !checkf(sue, "pomeranians", 3) { continue; }
-        if !check1(sue, "akitas", 0) { continue; }
-        if !check1(sue, "vizslas", 0) { continue; }
-        if !checkf(sue, "goldfish", 5) { continue; }
-        if !checkg(sue, "trees", 3) { continue; }
-        if !check1(sue, "cars", 2) { continue; }
-        if !check1(sue, "perfumes", 1) { continue; }
-        return i + 1;
+        if check_eq(sue, "children", 3)
+            && check_gt(sue, "cats", 7)
+            && check_eq(sue, "samoyeds", 2)
+            && check_ft(sue, "pomeranians", 3)
+            && check_eq(sue, "akitas", 0)
+            && check_eq(sue, "vizslas", 0)
+            && check_ft(sue, "goldfish", 5)
+            && check_gt(sue, "trees", 3)
+            && check_eq(sue, "cars", 2)
+            && check_eq(sue, "perfumes", 1)
+        {
+            return i + 1;
+        }
     }
     panic!("Can't find anything!")
 }
