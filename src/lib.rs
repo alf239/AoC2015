@@ -2,6 +2,7 @@ extern crate aoc_runner;
 
 #[macro_use]
 extern crate aoc_runner_derive;
+extern crate aoc_parse;
 extern crate md5;
 extern crate bit_vec;
 extern crate itertools;
@@ -23,6 +24,7 @@ pub mod day13;
 pub mod day14;
 pub mod day15;
 pub mod day16;
+pub mod day17;
 
 
 aoc_lib!{ year = 2015 }
